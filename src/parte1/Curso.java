@@ -1,14 +1,20 @@
 package parte1;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import exception.CreditosInsuficientesException;
+
 public class Curso extends Capacitacion{
 
 	private Docente docente;
 	private Integer cant_clases;
 	private Integer Duracion_clase;
 	private Integer creditos_requerido;
+	private List<Empleado> EmpleadosInscriptos;
 	
 	public Curso(Docente docente, Integer cant_clases, Integer duracion_clase, Integer creditos_requerido) {
-		super();
+		EmpleadosInscriptos = new ArrayList<Empleado>();
 		this.docente = docente;
 		this.cant_clases = cant_clases;
 		Duracion_clase = duracion_clase;
@@ -64,6 +70,24 @@ public class Curso extends Capacitacion{
 			return (((docente.getCosto_hora()*1.10)*Duracion_clase)*cant_clases);
 		}
 		return (docente.getCosto_hora()*Duracion_clase)*cant_clases;
+	}
+
+	@Override
+	public void inscribir(Empleado e) throws CreditosInsuficientesException {
+		if(e.calcularCreditosObt()>=this.creditos_requerido) {
+			EmpleadosInscriptos.add(e);
+		}else {
+			throw new CreditosInsuficientesException();
+		}
+	}
+
+	@Override
+	public void aprobar(Empleado e) {
+		for(int i=0; i<EmpleadosInscriptos.size(); i++) {
+			if(EmpleadosInscriptos.get(i).equals(e)) {
+				EmpleadosInscriptos.remove(i);
+			}
+		}
 	}
 	
 }

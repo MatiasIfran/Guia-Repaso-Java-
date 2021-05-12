@@ -14,7 +14,7 @@ public class App {
 		Taller T1 = new Taller(10, 50, 4, 10.5);
 		Taller T2 = new Taller(20, 12, 10, 99.99);
 		
-		Empleado E1 = new Empleado("Matias");
+		Empleado E1 = new Empleado("Matias", 50);
 	
 		E1.setCapacitacionEmpleado(C1);
 		E1.setCapacitacionEmpleado(T2);

@@ -1,11 +1,16 @@
 package parte1;
 
+import java.util.List;
+
+import exception.CreditosInsuficientesException;
+
 public class Taller extends Capacitacion{
 
 	private Integer Cant_max_alumnos;
 	private Integer Duracion_taller;
 	private Integer Cant_insc;
 	private Double costo_hora;
+	private List<Empleado> EmpleadosInscriptos;
 	
 	public Taller(Integer cant_max_alumnos, Integer duracion_taller, Integer cant_insc, Double costo_hora) {
 		super();
@@ -65,4 +70,24 @@ public class Taller extends Capacitacion{
 		return null;
 	}
 
+	@Override
+	public void inscribir(Empleado e) throws CreditosInsuficientesException{
+		if(this.Cant_insc<=this.Cant_max_alumnos) {
+			EmpleadosInscriptos.add(e);
+			this.Cant_insc++;
+		}
+		else {
+			throw new CreditosInsuficientesException();
+		}
+	}
+
+	@Override
+	public void aprobar(Empleado e) {
+		for(int i=0; i<EmpleadosInscriptos.size(); i++) {
+			if(EmpleadosInscriptos.get(i).equals(e)) {
+				Cant_insc--;
+				EmpleadosInscriptos.remove(i);
+			}
+		}
+	}
 }

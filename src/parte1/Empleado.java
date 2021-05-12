@@ -13,14 +13,33 @@ import java.util.stream.Collectors;
 public class Empleado {
 
 	private String nombre;
+	private Integer id_matricula;
 	private List<Capacitacion> CapacitacionEmpleado;
+	private List<Capacitacion> CapacitacionesEnCurso;
 	
-	public Empleado(String nombre) {
+	
+	public Empleado(String nombre, Integer id_matricula) {
 		super();
 		CapacitacionEmpleado = new ArrayList<Capacitacion>();
 		this.nombre = nombre;
+		this.id_matricula = id_matricula;
 	}
-
+	
+	public void inscribir(Capacitacion C) {
+		CapacitacionesEnCurso.add(C);
+		C.setEnCurso(true);
+	}
+	
+	public void aprobar(Capacitacion c){
+		for(int i=0; i<CapacitacionesEnCurso.size(); i++) {
+			if(CapacitacionesEnCurso.get(i).equals(c)) {
+				c.setEnCurso(false);
+				CapacitacionEmpleado.add(c);
+				CapacitacionesEnCurso.remove(i);
+			}
+		}
+	}
+	
 	public int calcularCreditosObt() {
 		return CapacitacionEmpleado.stream().mapToInt(C->C.OtorgarCredito()).sum();
 	}
@@ -32,6 +51,8 @@ public class Empleado {
 	public OptionalDouble costoPromedio() {
 		return CapacitacionEmpleado.stream().mapToDouble(c->c.costo()).average();
 	}
+	
+	
 	
 	public List<Capacitacion> CapacitacionesOrdenadas (Tema tema){
 		List<Capacitacion> aux = new ArrayList<Capacitacion>();
@@ -68,6 +89,26 @@ public class Empleado {
 	public void setCapacitacionEmpleado(Capacitacion c) {
 		this.CapacitacionEmpleado.add(c);
 	}
+
+
+	public Integer getId_matricula() {
+		return id_matricula;
+	}
+
+
+	public void setId_matricula(Integer id_matricula) {
+		this.id_matricula = id_matricula;
+	}
+
+
+	public List<Capacitacion> getCapacitacionesEnCurso() {
+		return CapacitacionesEnCurso;
+	}
+
+
+
+
+
 	
 	
 }
